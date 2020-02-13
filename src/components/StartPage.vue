@@ -19,10 +19,10 @@
     <div class="ul-list">
       <p>{{msg}}</p>
       <ul id="list-item">
-        <li v-for="(item, index) in sortedList" :key="index">
+        <li v-for="(item, index) in sortedList" :key="item.id">
           <template v-if="editIndex !== index">
             <a>{{item.id}}. {{item.value}}</a>
-             <button class="operationButton" v-on:click="list.splice(index, 1)" >Delete</button>
+             <button class="operationButton" v-on:click="DeleteElement(index)" >Delete</button>
             <button class="operationButton" v-on:click="EditElement(index)">Edit</button>
           </template>
           <template v-else>
@@ -66,9 +66,14 @@ export default {
       this.editIndex = index
     },
     SubmitChange (index) {
+      this.list = this.sortedList
       let editedRow = document.querySelector('.edit-textinput').value
       if (editedRow) this.list[index].value = editedRow
       this.editIndex = -1
+    },
+    DeleteElement (index) {
+      this.list = this.sortedList
+      this.list.splice(index, 1)
     }
   },
   computed: {
